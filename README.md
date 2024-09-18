@@ -29,7 +29,8 @@ The analysis covers various aspects of financial data, including:
 
     **DAX Query:**
     ```DAX
-    moving_average = var weeks = DATESINPERIOD('calendar'[Date], MAX('calendar'[Date]), -28, DAY)
+    moving_average =
+    var weeks = DATESINPERIOD('calendar'[Date], MAX('calendar'[Date]), -28, DAY)
     var sales = CALCULATE(SUM(credit_card[Credit_Limit]),weeks)
     var distinct_week = CALCULATE(DISTINCTCOUNT('calendar'[week_number]),weeks)
     RETURN DIVIDE(sales, distinct_week, 0)
