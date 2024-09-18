@@ -36,11 +36,17 @@ The analysis covers various aspects of financial data, including:
     RETURN DIVIDE(sales, distinct_week, 0)
     ```
 
-3. **Month-on-Month (MoM%) Growth on Transaction Amount**
+3. **Month-on-Month (MoM%) and Week-on-Week (WoW%) Growth on Transaction Amount**
 
     **DAX Query:**
     ```DAX
-    -- Placeholder for DAX Query: MoM% Growth
+    mom%growth =
+    var previous_month = CALCULATE(SUM(credit_card[Total_Trans_Amt]),DATEADD('calendar'[Date], -1,MONTH))
+    return DIVIDE(SUM(credit_card[Total_Trans_Amt])-previous_month,previous_month,0)
+
+    wow%growth =
+    var prev_week = CALCULATE(SUM(credit_card[Total_Trans_Amt]), DATEADD('calendar'[Date],-7,DAY))
+    return DIVIDE(SUM(credit_card[Total_Trans_Amt])- prev_week, prev_week,0)
     ```
 
 4. **Customer Acquisition Cost (CAC) as a Ratio of Transaction Amount**
