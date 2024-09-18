@@ -208,5 +208,5 @@ The analysis covers various aspects of financial data, including:
 
 Feel free to reach out for any queries or collaboration:
 
-- **Email**: ethendcosta5@gmail.com(mailto:ethendcosta5@gmail.com)
+- **Email**: ethendcosta5@gmail.com
 - **LinkedIn**: [linkedin.com/in/ethendcosta](http://linkedin.com/in/ethendcosta)
