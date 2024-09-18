@@ -88,35 +88,83 @@ The analysis covers various aspects of financial data, including:
 
     **DAX Query:**
     ```DAX
-    -- Placeholder for DAX Query: Utilization Ratio > 80%
+    Avg_Uti_Exceeds_80% = 
+    IF([Avg_Utilization_Ratio] > 0.8, TRUE, FALSE)
     ```
 
 9. **Customer Churn Indicator (Clients with No Transactions in Last 6 Months)**
 
     **DAX Query:**
     ```DAX
-    -- Placeholder for DAX Query: Customer Churn Indicator
+    no_trans_in_last_6_mon = 
+    var six_month = CALCULATE(SUM(credit_card[Total_Trans_Amt]), DATESINPERIOD('calendar'[Date],MAX('calendar'[Date]), -6, MONTH))
+    RETURN(IF(ISBLANK(six_month), TRUE, FALSE))
     ```
 
 10. **Delinquency Rate (Percentage of Clients with Delinquent Accounts)**
 
     **DAX Query:**
     ```DAX
-    -- Placeholder for DAX Query: Delinquency Rate
+    Delinquency_Rate_Above_0 =
+    var delinuent_acc = CALCULATE(COUNTROWS(credit_card),credit_card[Delinquent_Acc] > 0)
+    var total_acc = COUNTROWS(credit_card)
+    RETURN DIVIDE(delinuent_acc, total_acc)
     ```
 
 11. **Credit Risk Score (Based on Avg_Utilization_Ratio, Delinquent Accounts, and Total Revolving Balance)**
 
     **DAX Query:**
     ```DAX
-    -- Placeholder for DAX Query: Credit Risk Score
+    credit_risk_score =
+    0.5*credit_card[Avg_Utilization_Ratio]+
+    0.3*credit_card[Delinquent_Acc]+
+    0.2*credit_card[Normalised_Revolving_Balance]
     ```
 
 12. **Income vs Credit Limit Correlation**
 
     **DAX Query:**
     ```DAX
-    -- Placeholder for DAX Query: Income vs Credit Limit Correlation
+    Income and Credit_Limit correlation for Client_Num = 
+      VAR __CORRELATION_TABLE = VALUES('customer'[Client_Num])
+      VAR __COUNT =
+      	COUNTX(
+      		KEEPFILTERS(__CORRELATION_TABLE),
+      		CALCULATE(SUM('customer'[Income]) * SUM('credit_card'[Credit_Limit]))
+      	)
+      VAR __SUM_X =
+      	SUMX(
+      		KEEPFILTERS(__CORRELATION_TABLE),
+      		CALCULATE(SUM('customer'[Income]))
+      	)
+      VAR __SUM_Y =
+      	SUMX(
+      		KEEPFILTERS(__CORRELATION_TABLE),
+      		CALCULATE(SUM('credit_card'[Credit_Limit]))
+      	)
+      VAR __SUM_XY =
+      	SUMX(
+      		KEEPFILTERS(__CORRELATION_TABLE),
+      		CALCULATE(SUM('customer'[Income]) * SUM('credit_card'[Credit_Limit]) * 1.)
+      	)
+      VAR __SUM_X2 =
+      	SUMX(
+      		KEEPFILTERS(__CORRELATION_TABLE),
+      		CALCULATE(SUM('customer'[Income]) ^ 2)
+      	)
+      VAR __SUM_Y2 =
+      	SUMX(
+      		KEEPFILTERS(__CORRELATION_TABLE),
+      		CALCULATE(SUM('credit_card'[Credit_Limit]) ^ 2)
+      	)
+      RETURN
+      	DIVIDE(
+      		__COUNT * __SUM_XY - __SUM_X * __SUM_Y * 1.,
+      		SQRT(
+      			(__COUNT * __SUM_X2 - __SUM_X ^ 2)
+      				* (__COUNT * __SUM_Y2 - __SUM_Y ^ 2)
+      		)
+      	)
     ```
 
 13. **Average Customer Satisfaction Score by Credit Card Category**
