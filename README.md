@@ -21,8 +21,7 @@ The analysis covers various aspects of financial data, including:
 
     **DAX Query:**
     ```DAX
-      running_total = 
-CALCULATE(SUM(credit_card[Total_Trans_Amt]), FILTER(ALL('credit_card'), credit_card[Week_Start_Date] <= MAX(credit_card[Week_Start_Date])))
+      running_total = CALCULATE(SUM(credit_card[Total_Trans_Amt]), FILTER(ALL('credit_card'), credit_card[Week_Start_Date] <= MAX(credit_card[Week_Start_Date])))
     ```
 
 2. **4-Week Moving Average of the Credit Limit for Each Client**
