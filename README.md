@@ -21,14 +21,18 @@ The analysis covers various aspects of financial data, including:
 
     **DAX Query:**
     ```DAX
-      running_total = CALCULATE(SUM(credit_card[Total_Trans_Amt]), FILTER(ALL('credit_card'), credit_card[Week_Start_Date] <= MAX(credit_card[Week_Start_Date])))
+    running_total = CALCULATE(SUM(credit_card[Total_Trans_Amt]),
+    FILTER(ALL('credit_card'),credit_card[Week_Start_Date] <= MAX(credit_card[Week_Start_Date])))
     ```
 
 2. **4-Week Moving Average of the Credit Limit for Each Client**
 
     **DAX Query:**
     ```DAX
-    -- Placeholder for DAX Query: 4-Week Moving Average
+    moving_average = var weeks = DATESINPERIOD('calendar'[Date], MAX('calendar'[Date]), -28, DAY)
+    var sales = CALCULATE(SUM(credit_card[Credit_Limit]),weeks)
+    var distinct_week = CALCULATE(DISTINCTCOUNT('calendar'[week_number]),weeks)
+    RETURN DIVIDE(sales, distinct_week, 0)
     ```
 
 3. **Month-on-Month (MoM%) Growth on Transaction Amount**
