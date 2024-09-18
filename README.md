@@ -53,28 +53,35 @@ The analysis covers various aspects of financial data, including:
 
     **DAX Query:**
     ```DAX
-    -- Placeholder for DAX Query: CAC Calculation
+    cac_ratio = DIVIDE(
+    SUM(credit_card[Customer_Acq_Cost]),
+    sum(credit_card[Total_Trans_Amt])) 
     ```
 
 5. **Yearly Average of Avg_Utilization_Ratio for All Clients**
 
     **DAX Query:**
     ```DAX
-    -- Placeholder for DAX Query: Yearly Avg Utilization Ratio
+    avg_utilization_rate =
+    AVERAGE(credit_card[Avg_Utilization_Ratio])/
+    DISTINCTCOUNT(credit_card[current_year])
     ```
 
 6. **Percentage of Interest Earned Compared to Total Revolving Balance for Each Client**
 
     **DAX Query:**
     ```DAX
-    -- Placeholder for DAX Query: Interest Earned vs Revolving Balance
+    Interest_Earned_to_Total_Revolving_Bal = DIVIDE(
+    SUM(credit_card[Interest_Earned]),
+    SUM(credit_card[Total_Revolving_Bal]),0)
     ```
 
 7. **Top 5 Clients by Total Transaction Amount**
 
     **DAX Query:**
     ```DAX
-    -- Placeholder for DAX Query: Top 5 Clients by Transaction
+    top_5_clients_by_trans_amt =
+    TOPN(5,SUMMARIZE(credit_card, credit_card[Client_Num],"total_amount", SUM(credit_card[Total_Trans_Amt])),[total_amount],DESC)
     ```
 
 8. **Clients Whose Avg_Utilization_Ratio Exceeds 80%**
