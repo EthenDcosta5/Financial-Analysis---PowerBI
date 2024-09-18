@@ -121,7 +121,7 @@ The analysis covers various aspects of financial data, including:
     0.2*credit_card[Normalised_Revolving_Balance]
     ```
 
-12. **Income vs Credit Limit Correlation**
+12. **Income vs Credit Limit Correlation(Created using Quick Measure)**
 
     **DAX Query:**
     ```DAX
@@ -171,21 +171,26 @@ The analysis covers various aspects of financial data, including:
 
     **DAX Query:**
     ```DAX
-    -- Placeholder for DAX Query: Avg Satisfaction by Card Category
+    avg_score_by_card_category =
+    SUMMARIZE(credit_card,credit_card[Card_Category], "avg score", ROUND(AVERAGE(customer[Cust_Satisfaction_Score]),2))
     ```
 
 14. **Loan Approval vs Credit Limit (Analyzing How Credit Limit Affects Loan Approval)**
 
     **DAX Query:**
     ```DAX
-    -- Placeholder for DAX Query: Loan Approval vs Credit Limit
+    loan_yes = CALCULATE(AVERAGE(credit_card[Credit_Limit]), customer[Personal_loan] = "yes")
+
+    loan_no = CALCULATE(AVERAGE(credit_card[Credit_Limit]), customer[Personal_loan] = "no")
     ```
 
 15. **High Risk Clients Flag (Clients with Revolving Balance > 90% of Credit Limit and High Avg_Utilization_Ratio)**
 
     **DAX Query:**
     ```DAX
-    -- Placeholder for DAX Query: High Risk Clients Flag
+    exceeds_90%_credit_limit =
+    var clAbove90 = credit_card[Credit_Limit] * 0.9
+    RETURN IF(credit_card[Total_Revolving_Bal] > clAbove90 && [Avg_Utilization_Ratio] > 0.5, True,False)
     ```
 
 ## Tools Used
@@ -203,5 +208,5 @@ The analysis covers various aspects of financial data, including:
 
 Feel free to reach out for any queries or collaboration:
 
-- **Email**: ethendcosta5@gmail.com
+- **Email**: ethendcosta5@gmail.com(mailto:ethendcosta5@gmail.com)
 - **LinkedIn**: [linkedin.com/in/ethendcosta](http://linkedin.com/in/ethendcosta)
